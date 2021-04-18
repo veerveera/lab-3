@@ -9,6 +9,10 @@ int main(int argc, char* argv[]) {
 	//SetConsoleCP(1251);
 	//SetConsoleOutputCP(1251);
 string filename(argv[1]);
+if (argc < 2){
+	std::cout <<" Specify a file name" ;
+	return 1;
+}
 int variant = -1;
 Menu menu;
 

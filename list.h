@@ -8,10 +8,12 @@ private:
 	std::string country;
 	std::string city;
 	int height;
-public:
+
 
 	Air* next;
 	Air* prev;
+
+public:
 
 
 	Air() {
@@ -63,6 +65,20 @@ public:
 	int GetHeight() {
 		return this->height;
 	}
+	Air* nextElem() {
+		return this->next;
+	}
+	void editNext(Air* a) {
+		this->next = a;
+	}
+	Air* prevElem() {
+		return this->prev;
+	}
+	void editPrev(Air* a) {
+		this->prev = a;
+	}
+	~Air() {
+	}
 };
 
 class Menu {
@@ -99,4 +115,7 @@ public:
 	void edit(int index, std::string info, std::string value);
 
 	void freeList();
+	~Menu() {
+		freeList();
+	}
 };

@@ -9,7 +9,7 @@ Air* Menu::find(int index) {
 			finded = tmp;
 			break;
 		}
-		tmp = tmp->next;
+		tmp = tmp->nextElem();
 		i++;
 	}
 	return finded;
@@ -22,7 +22,7 @@ Air* Menu::findAirByName(std::string name) {
 			finded = tmp;
 			break;
 		}
-		tmp = tmp->next;
+		tmp = tmp->nextElem();
 	}
 	return finded;
 }
@@ -34,7 +34,7 @@ Air* Menu::findAirByCountry(std::string country) {
 			finded = tmp;
 			break;
 		}
-		tmp = tmp->next;
+		tmp = tmp->nextElem();
 	}
 	return finded;
 }
@@ -46,7 +46,7 @@ Air* Menu::findAirByCity(std::string city) {
 			finded = tmp;
 			break;
 		}
-		tmp = tmp->next;
+		tmp = tmp->nextElem();
 	}
 	return finded;
 }
@@ -58,7 +58,7 @@ Air* Menu::findAirByHeight(int height) {
 			finded = tmp;
 			break;
 		}
-		tmp = tmp->next;
+		tmp = tmp->nextElem();
 	}
 	return finded;
 }
@@ -90,11 +90,11 @@ void Menu::edit(int index, std::string info, std::string value) {
 void Menu::pushFront(std::string name, std::string country, std::string city, int height) {
 
 	Air* tmp = new Air(name, country, city, height);
-	tmp->next = NULL;
-	tmp->prev = end;
+	tmp->editNext(NULL);
+	tmp->editPrev(end);
 
 	if (end) {
-		end->next = tmp;
+		end->editNext(tmp);
 		end = tmp;
 	}
 	else {
@@ -109,7 +109,7 @@ void Menu::print() {
 	while (tmp != NULL) {
 		std::cout << "Airbase" << i << '\n';
 		std::cout << *tmp;
-		tmp = tmp->next;
+		tmp = tmp->nextElem();
 		i++;
 	}
 }
@@ -121,7 +121,7 @@ void Menu::printFile(std::string fileName) {
 		Air* tmp = begin;
 		while (tmp != NULL) {
 			out << tmp->GetName() << '\n' << tmp->GetCountry() << '\n' << tmp->GetCity() << '\n' << tmp->GetHeight() << '\n';
-			tmp = tmp->next;
+			tmp = tmp->nextElem();
 		}
 	}
 	else {
@@ -137,15 +137,15 @@ void Menu::del(int index) {
 		return;
 
 	if (index == 0) {
-		begin = finded->next;
-		finded->next->prev = NULL;
+		begin = finded->nextElem();
+		finded->nextElem()->editPrev(NULL);
 	}
 	else {
-		if (finded->prev) {
-			finded->prev->next = finded->next;
+		if (finded->prevElem()) {
+			finded->prevElem()->editNext(finded->nextElem());
 		}
-		if (finded->next) {
-			finded->next->prev = finded->prev;
+		if (finded->nextElem()) {
+			finded->nextElem()->editPrev(finded->nextElem());
 		}
 	}
 	delete finded;
@@ -156,7 +156,7 @@ void Menu::freeList() {
 	Air* tmp = begin;
 	while (tmp != NULL) {
 		Air* p = tmp;
-		tmp = tmp->next;
+		tmp = tmp->nextElem();
 		delete p;
 	}
 	size = 0;
